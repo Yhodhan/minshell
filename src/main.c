@@ -23,6 +23,8 @@ char *get_input(char *buffer) {
   return buffer;
 }
 
+void parse_inputs(char *inputs) {}
+
 void shell() {
   char *str = malloc(sizeof(char) * 2);
 
@@ -30,6 +32,8 @@ void shell() {
   printf(GRN " ");
 
   str = get_input(str);
+  parse_inputs(str);
+
   printf(RESET "the str is: %s \n", str);
   free(str);
 }
