@@ -1,0 +1,1 @@
+/usr/bin/cc -g -Werror -Wall -rdynamic CMakeFiles/shell.dir/src/main.c.o -o shell 
