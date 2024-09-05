@@ -3,12 +3,13 @@
 char *get_input(char *buffer) {
   int len = 1;
   char c = ' ';
-  while ((c = getchar()) != '\n') {
+  do {
     buffer[len - 1] = c;
     buffer[len] = '\0';
     len++;
     buffer = realloc(buffer, len + 1);
-  }
+  } while ((c = getchar()) != '\n');
+
   return buffer;
 }
 
