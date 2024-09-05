@@ -1,3 +1,0 @@
-/home/garuda/shell/build/CMakeFiles/shell.dir
-/home/garuda/shell/build/CMakeFiles/edit_cache.dir
-/home/garuda/shell/build/CMakeFiles/rebuild_cache.dir
