@@ -14,4 +14,8 @@
 #define RESET "\x1B[0m"
 #define GRN "\x1B[32m"
 
+char *get_input(char *buffer);
+void parse_inputs(char *inputs);
+void shell();
+
 #endif
