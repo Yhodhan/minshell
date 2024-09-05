@@ -23,7 +23,7 @@ char *get_input(char *buffer) {
   return buffer;
 }
 
-int main(int argc, char **argv) {
+void shell() {
   char *str = malloc(sizeof(char) * 2);
 
   printf(MAG "⋊>");
@@ -32,6 +32,9 @@ int main(int argc, char **argv) {
   str = get_input(str);
   printf(RESET "the str is: %s \n", str);
   free(str);
+}
 
+int main(int argc, char **argv) {
+  shell();
   return 0;
 }
