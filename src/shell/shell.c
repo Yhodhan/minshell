@@ -14,6 +14,9 @@ static char *get_input(char *buffer) {
   return buffer;
 }
 
+// Trim
+// str -> " abc"
+// trim_str -> "abc"
 static char *trim(char *str) {
   int len = strlen(str);
   char *trimmed_string = malloc(len * sizeof(char));
@@ -55,8 +58,8 @@ static Set parse_inputs(char *inputs) {
   } else {
     // else is an explit command
     int last_char_pos = 0;
-    int i;
-    for (i = 0; inputs[i] != '\0'; i++) {
+    int i = 0;
+    for (; inputs[i] != '\0'; i++) {
       if (inputs[i] == ' ') {
         copy_commands(inputs, &args, (i - last_char_pos), last_char_pos);
         last_char_pos = i + 1;
@@ -80,10 +83,6 @@ void exec(char **args) {
   }
 }
 
-// Trim
-// str -> " abc"
-// trim_str -> "abc"
-
 void shell() {
   for (;;) {
     char *input = malloc(sizeof(char) * 2);
@@ -94,17 +93,19 @@ void shell() {
     input = get_input(input);
     input = trim(input);
 
-    if (!strcmp(input, "exit")) {
+    if (!strcmp(input, "exit") || !strcmp(input, "quit")) {
       free(input);
       break;
     }
 
     // char **args = parse_inputs(input);
-    Set args = parse_inputs(input);
-    // exec command
-    // exec(args);
+    Set parsed_args = parse_inputs(input);
+    char **args = to_array(&parsed_args);
 
-    print_set(&args);
-    delete_set(&args);
+    // exec command
+    exec(args);
+
+    delete_set(&parsed_args);
+    free(args);
   }
 }

@@ -19,5 +19,6 @@ void print_set(Set *set);
 void delete_set(Set *set);
 void add(Set *set, char *elem);
 int exists(Set *set, char *elem);
+char **to_array(Set *set);
 
 #endif

@@ -53,3 +53,14 @@ void print_set(Set *set) {
     printf("%s ", set->arr[i]);
   }
 }
+
+char **to_array(Set *set) {
+  int len = set->size;
+  char **arr = malloc(len * sizeof(char *) + 8); // 8 extra bytes for NULL
+  // copy pointers
+  for (int i = 0; i < len; i++)
+    arr[i] = set->arr[i];
+
+  arr[len] = NULL;
+  return arr;
+}
