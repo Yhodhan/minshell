@@ -7,6 +7,7 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <unistd.h>
+#include "../../lib/set.h"
 
 // Shell's colors
 #define RED "\x1B[31m"

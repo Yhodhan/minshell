@@ -1,5 +1,4 @@
 #include "shell.h"
-#include <stdio.h>
 #include <string.h>
 
 static char *get_input(char *buffer) {
@@ -27,7 +26,59 @@ static char *trim(char *str) {
   return trimmed_string;
 }
 
-static void parse_inputs(char *inputs) {}
+static int has_white_spaces(char *args) {
+  int len = strlen(args);
+  for (int i = 0; i < len; i++) {
+    if (args[i] == ' ')
+      return 1;
+  }
+  return 0;
+}
+
+void copy_commands(char *inputs, Set *args, int len, int last_char_pos) {
+  char *buffer = malloc(len * sizeof(char) + 1);
+  for (int i = 0; i < len; i++) {
+    buffer[i] = inputs[last_char_pos];
+    last_char_pos++;
+  }
+  buffer[len] = '\0';
+  add(args, buffer);
+}
+
+// "ls -a -l" -> {"ls", "-a", "-l"}
+static Set parse_inputs(char *inputs) {
+  Set args = init_set();
+  // check if the command has spaces
+  if (!has_white_spaces(inputs)) {
+    int len = strlen(inputs);
+    copy_commands(inputs, &args, len, 0);
+  } else {
+    // else is an explit command
+    int last_char_pos = 0;
+    int i;
+    for (i = 0; inputs[i] != '\0'; i++) {
+      if (inputs[i] == ' ') {
+        copy_commands(inputs, &args, (i - last_char_pos), last_char_pos);
+        last_char_pos = i + 1;
+      }
+    }
+    // copy the remaining arguments
+    copy_commands(inputs, &args, (i - last_char_pos), last_char_pos);
+  }
+  free(inputs);
+  return args;
+}
+
+void exec(char **args) {
+  pid_t pid = fork();
+  switch (pid) {
+  case -1:
+    perror("fork did not work");
+    break;
+  case 0:
+    execvp(args[0], args);
+  }
+}
 
 // Trim
 // str -> " abc"
@@ -48,9 +99,12 @@ void shell() {
       break;
     }
 
-    parse_inputs(input);
-    printf(RESET "the input is: %s \n", input);
+    // char **args = parse_inputs(input);
+    Set args = parse_inputs(input);
+    // exec command
+    // exec(args);
 
-    free(input);
+    print_set(&args);
+    delete_set(&args);
   }
 }
